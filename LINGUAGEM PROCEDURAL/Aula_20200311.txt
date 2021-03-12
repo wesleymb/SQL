@@ -1,0 +1,99 @@
+1)Crie uma procedure que leia dois números quaisquer e informa se o primeiro é maior, igual ou menor do que o segundo.
+
+delimiter $$
+create procedure exercicio_1 (in numero1 int, in numero2 int, out status varchar(50))
+begin 
+	if (numero1 > numero2) then
+		set status = "Primeiro é maior que o segundo.";
+	elseif (numero1 = numero2) then
+		set status = "Primeiro é igual ao segundo.";
+	else
+		set status = "Primeiro é menor que o segundo";    
+	end if;
+end;
+
+set @resultado = "";
+call exercicio_1(2, 4, @resultado);
+select @resultado;
+
+
+2)Crie uma procedure que leia um número qualquer e informa se o número lido está no intervalo de 0 a 100.
+
+delimiter $$
+create procedure exercicio_2 (in numero int, out status varchar(50))
+begin 
+	if (numero >= 0 and numero <= 100) then
+		set status = "Número está no intervalo de 0 a 100.";
+	else
+		set status = "Número não está no intervalo de 0 a 100.";
+	end if;
+end;
+
+set @resultado = "";
+call exercicio_2(101, @resultado);
+select @resultado;
+
+
+3)Crie uma procedure que leia um número qualquer e informa se o número lido está nos intervalos de 0 a 10 ou 20 a 30.
+
+delimiter $$
+create procedure exercicio_3 (in numero int, out status varchar(100))
+begin 
+	if (numero >= 0 and numero <= 10) then
+		set status = "Número está no intervalo de 0 a 10.";
+	elseif 	(numero >= 20 and numero <= 30) then
+		set status = "Número está no intervalo de 20 a 30.";
+    else
+		set status = "Número não está nos intervalos de 0 a 10 ou 20 a 30.";    
+	end if;
+end;
+
+set @resultado = "";
+call exercicio_3(10, @resultado);
+select @resultado;
+
+
+4)Crie uma procedure que leia três números e informa qual dos três é o maior.
+
+delimiter $$
+create procedure exercicio_4 (in numero1 int, in numero2 int, in numero3 int, out status varchar(100))
+begin 
+    declare maior int;
+	if (numero1 > numero2) then
+	  set maior = numero1;
+	elseif numero2 > numero3 then
+      set maior = numero2;
+	else
+      set maior = numero3;
+	end if;
+        
+    set status = concat("O maior número é o número ", maior);
+end;
+
+set @resultado = "";
+call exercicio_4(234,21,223,@resultado);
+select @resultado;
+
+5)Crie uma procedure que leia a renda de uma pessoa e calcula um imposto, com base na tabela de alíquotas abaixo. 
+Até 	1.200,00	isento
+de 	1.201,00 a 5.000,00	10%
+de	5.001,00 a 10.000,00	15%
+acima de 10.000,00		20%
+
+delimiter $$
+create procedure exercicio_5 (in renda decimal(10,2), out imposto decimal(10,2))
+begin 
+	if (renda <= 1000) then
+	  set imposto = 0;
+	elseif renda >= 1201 and renda <= 5000 then
+      set imposto = renda * 0.10;
+	elseif renda >= 5001 and renda <= 10000 then
+      set imposto = renda * 0.15;
+	else
+      set imposto = renda * 0.20;
+	end if;
+end;
+
+set @imposto = 0;
+call exercicio_5(5000,@imposto);
+select @imposto;

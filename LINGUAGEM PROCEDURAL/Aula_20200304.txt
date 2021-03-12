@@ -1,0 +1,60 @@
+/** TRABALHO 1 - AV1
+
+1) Ler dois números e calcular seu produto
+2) Ler um número e informar a metade e o dobro do numero lido
+3) Ler dois números e informar sua soma e sua diferença
+4) Ler um número e informar se o dobro donúmero é maior que 100.
+
+**/ 
+
+/** GABARITO 1 **/
+delimiter $$
+create procedure exercicio_1 (in numero1 int, in numero2 int, out produto int)
+begin 
+    set produto = numero1*numero2;
+end;
+
+set @resultado1 = 0;
+call exercicio_1(2, 4, @resultado1);
+select @resultado1
+
+/** GABARITO 2 **/
+delimiter $$
+create procedure exercicio_2 (in numero1 int, out metade int, out dobro int)
+begin 
+    set metade = numero1/2;
+	set dobro = numero1*2;
+end;
+
+set @metade2 = 0;
+set @dobro2 = 0;
+call exercicio_2(10, @metade2, @dobro2);
+select @metade2, @dobro2;
+
+/** GABARITO 3 **/
+delimiter $$
+create procedure exercicio_3 (in numero1 int, in numero2 int, out soma int, out diferenca int)
+begin 
+    set soma = numero1+numero2;
+	set diferenca = numero1-numero2;
+end;
+
+set @soma3 = 0;
+set @diferenca3 = 0;
+call exercicio_3(10,5, @soma3, @diferenca3);
+select @soma3, @diferenca3;
+
+/** GABARITO 4 **/
+delimiter $$
+create procedure exercicio_4 (in numero int, out status varchar(20))
+begin 
+	if (numero*2)>100 then
+		set status = "Maior que 100";
+	else 
+		set status = "Menor que 100";
+	end if;
+end;
+
+set @resultado4 = "";
+call exercicio_4(40, @resultado4);
+select @resultado4;

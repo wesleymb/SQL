@@ -1,0 +1,132 @@
+use estaciobd;
+
+/** procedure - devolver a quantidade de linhas da tabela **/
+delimiter $$
+create procedure contar_estados(OUT quantidade int)
+begin
+  select count(*) into quantidade from estado;
+end;
+
+/** exemplo de execução **/
+set @total=0
+call contar_estados(@total);
+select @total;
+
+
+/** procedure - concatenar um texto **/
+delimiter $$
+create procedure concatena_texto()
+begin
+  declare texto varchar(10);
+  set texto='Isto é um ';
+  select concat(texto,'exemplo');
+end;
+
+/** exemplo de execução **/
+call concatena_texto();
+
+
+/** procedure - receber um numero e elevar ao quadrado **/
+delimiter $$
+/** por default é só de entrada s**/
+create procedure elevar_ao_quadrado (inout numero int)
+begin
+	SET numero = numero*numero;
+end;
+
+/** exemplo de execução **/
+set @valor = 5;
+call elevar_ao_quadrado(@valor);
+select @valor;
+
+
+/** procedure - receber dois números e calcular a média **/
+delimiter $$
+create procedure calcula_media (in numero1 int, in numero2 int, out retorno int)
+begin
+	declare conta int;
+    set conta = (numero1+numero2)/2;
+    set retorno = conta;
+end;
+
+/** exemplo de execução **/
+set @media=0;
+call calcula_media(4,2,@media);
+select @media;
+
+/** procedure - receber dois números, calcular a média e devolver se foi aprovado ou reprovado**/
+delimiter $$
+create procedure verifica_aprovacao (in nota1 decimal(10,2), in nota2 decimal(10,2), out status varchar(20))
+begin 
+	if (nota1+nota2)/2 > 6 then
+		set status = "aprovado";
+	else 
+		set status = "reprovado";
+	end if;
+end;
+
+/** exemplo de execução **/
+set @resultado = "";
+call verifica_aprovacao(10, 8, @resultado);
+select @resultado
+
+/** exercicios 
+
+1) Ler dois números e calcular seu produto
+2) Ler um número e informar a metade e o dobro do numero lido
+3) Ler dois números e informar sua soma e sua diferença
+4) Ler um número e informar se o dobro donúmero é maior que 100.
+
+**/ 
+
+/** EXERCICIO 1 **/
+delimiter $$
+create procedure exercicio_1 (in numero1 int, in numero2 int, out produto int)
+begin 
+    set produto = numero1*numero2;
+end;
+
+set @resultado1 = "";
+call exercicio_1(2, 4, @resultado1);
+select @resultado1
+
+/** EXERCICIO 2 **/
+delimiter $$
+create procedure exercicio_2 (in numero1 int, out metade int, out dobro int)
+begin 
+    set metade = numero1/2;
+	set dobro = numero1*2;
+end;
+
+set @metade2 = 0;
+set @dobro2 = 0;
+call exercicio_2(10, @metade2, @dobro2);
+select @metade2, @dobro2;
+
+/** EXERCICIO 3 **/
+delimiter $$
+create procedure exercicio_3 (in numero1 int, in numero2 int, out soma int, out diferenca int)
+begin 
+    set soma = numero1+numero2;
+	set diferenca = numero1-numero2;
+end;
+
+set @soma3 = 0;
+set @diferenca3 = 0;
+call exercicio_3(10,5, @soma3, @diferenca3);
+select @soma3, @diferenca3;
+
+/** EXERCICIO 4 **/
+delimiter $$
+create procedure exercicio_4 (in numero int, out status varchar(20))
+begin 
+	if (numero*2)>100 then
+		set status = "Maior que 100";
+	else 
+		set status = "Menor que 100";
+	end if;
+end;
+
+set @resultado4 = "";
+call exercicio_4(40, @resultado4);
+select @resultado4;

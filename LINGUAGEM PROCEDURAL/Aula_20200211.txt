@@ -1,0 +1,69 @@
+DROP SCHEMA estaciobd;
+
+CREATE SCHEMA IF NOT EXISTS estaciobd DEFAULT CHARACTER SET utf8 ;
+
+USE estaciobd ;
+
+CREATE TABLE Estado (
+  UF CHAR(2) NOT NULL,
+  Nome VARCHAR(45) NOT NULL,
+  PRIMARY KEY (UF))
+ENGINE = InnoDB;
+
+insert into Estado (UF, Nome) values ('RJ', 'Rio de Janeiro');
+insert into Estado (UF, Nome) values ('SP', 'São Paulo');
+insert into Estado (UF, Nome) values ('MG', 'Minas Gerais');
+
+select * from Estado;
+
+######################
+##Exercício 1
+######################
+delimiter $$
+create procedure lista_estados()
+begin
+  select * from estado;
+end;
+
+call lista_estados;
+
+######################
+##Exercício 2
+######################
+delimiter $$
+create procedure insere_estado(pUF char(02), pNome varchar(20))
+begin
+  insert into estado (UF, Nome) values (pUF, pNome);
+end;
+
+call insere_estado('RS', 'Rio Grande do Sul');
+call lista_estados;
+
+######################
+##Exercício 3
+######################
+delimiter $$
+create procedure altera_estado(pUF char(02), pNome varchar(20))
+begin
+  update estado set Nome = pNome where UF = pUF;
+end;
+
+call altera_estado('RS', 'Rio Grande do WWW');
+call lista_estados;
+call altera_estado('RS', 'Rio Grande do Sul');
+call lista_estados;
+
+######################
+##Exercício 4
+######################
+delimiter $$
+create procedure deleta_estado(pUF char(02))
+begin
+  delete from estado where UF = pUF;
+end;
+
+call deleta_estado('RS');
+call lista_estados;
+
+drop procedure deleta_estado;
+
